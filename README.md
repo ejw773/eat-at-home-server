@@ -1,2 +1,2 @@
-# clean-the-earth-server
-A backend for the clean-the-earth app
+# eat-at-home-server
+A backend for the eat@home website
