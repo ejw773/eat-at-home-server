@@ -1,7 +1,7 @@
 {
-  "name": "clean-the-earth-server",
+  "name": "eat-at-home-server",
   "version": "1.0.0",
-  "description": "A backend for the clean-the-earth app",
+  "description": "A backend for the eat-at-home app",
   "main": "index.js",
   "engines": {
     "node": "12.x"
@@ -27,13 +27,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ejw773/clean-the-earth-server.git"
+    "url": "git+https://github.com/ejw773/eat-at-home-server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ejw773/clean-the-earth-server/issues"
+    "url": "https://github.com/ejw773/eat-at-home-server/issues"
   },
-  "homepage": "https://github.com/ejw773/clean-the-earth-server#readme"
+  "homepage": "https://github.com/ejw773/eat-at-home-server#readme"
 }
