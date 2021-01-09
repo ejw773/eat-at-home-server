@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 require('dotenv').config();
 const passport = require('passport');
 const express = require('express');
@@ -90,9 +89,9 @@ const userRatings = [
 ]
 
 
-app.get('/heartbeat', (req, res) => {
+app.get('/', (req, res) => {
     res.json({
-        status: 'eat@home server is running'
+        status: 'eat@home test server is running'
     })
 })
 
@@ -121,6 +120,3 @@ if (port == null || port == "") {
   port = 8000;
 }
 app.listen(port);
-=======
-const express = require('express');
->>>>>>> d529f2a5acef8c84a4c9265f81468022cc951dca
