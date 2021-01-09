@@ -84,13 +84,6 @@ const userRatings = [
 
 app.use('/', express.static('public'));
 
-
-// app.get('/', (req, res) => {
-//     res.json({
-//         status: 'eat@home test server is running'
-//     })
-// })
-
 app.get('/api/biz', (req, res) => {
     res.json(businessData);
 })
