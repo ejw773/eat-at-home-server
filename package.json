@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A backend for the clean-the-earth app",
   "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
@@ -15,9 +18,12 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
