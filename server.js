@@ -1,11 +1,5 @@
-require('dotenv').config();
-const passport = require('passport');
 const express = require('express');
 const app = express();
-const session = require('express-session');
-const fetch = require('node-fetch');
-
-const router = require ('./app/routes')
 
 
 // Temporary fake data
