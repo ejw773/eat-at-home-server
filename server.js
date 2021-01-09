@@ -7,8 +7,6 @@ const fetch = require('node-fetch');
 
 const router = require ('./app/routes')
 
-const port = 3000;
-
 
 // Temporary fake data
 const userData = [
@@ -117,6 +115,8 @@ app.get('/api/ratings', (req, res) => {
     res.json(userRatings);
 })
 
-app.listen(port, (req, res) => {
-    console.log(`Server is listening on port ${port}`)
-})
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(port);
