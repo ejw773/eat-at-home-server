@@ -24,7 +24,11 @@
     "node": "12.18.4"
   },
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
+=======
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> main
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
