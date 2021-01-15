@@ -6,7 +6,7 @@ module.exports = {
       firstName: 'Alfred',
       lastName: 'Hitchcock',
       email: 'i_make_thrillers@hollywood.com',
-      github_login: '',
+      github_login: 0,
       createdAt: new Date(),
       updatedAt: new Date()
   }], {});
