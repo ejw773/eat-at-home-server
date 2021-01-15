@@ -107,6 +107,11 @@ auth(app, passport);
 
 app.use('/', express.static('public'));
 
+
+app.get('/success', (req, res) => {
+    res.json({login: 'success'});
+})
+
 app.get('/api/biz', (req, res) => {
     res.json(businessData);
 })
