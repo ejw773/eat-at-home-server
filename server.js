@@ -1,11 +1,26 @@
+require('dotenv').config();
+const bodyParser = require('body-parser');
 const express = require('express');
+const fetch = require('node-fetch');
+const passport = require('passport');
+const session = require('express-session')
+const auth = require('./auth');
+const gitHubStrategy = require('./auth/strategy/github');
+
 const app = express();
-const cors = require('cors');
-const Sequelize = require('sequelize');
+
+app.use(bodyParser.json());
+app.use(session({
+  secret: "super secret",
+  cookie: {maxAge: 60000}
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+// strategies
+passport.use(gitHubStrategy);
 
 
-
-app.use(cors())
 
 
 // Temporary fake data
@@ -88,7 +103,14 @@ const userRatings = [
     }
 ]
 
+auth(app, passport);
+
 app.use('/', express.static('public'));
+
+
+app.get('/success', (req, res) => {
+    res.json({login: 'success'});
+})
 
 app.get('/api/biz', (req, res) => {
     res.json(businessData);
@@ -110,8 +132,9 @@ app.get('/api/ratings', (req, res) => {
     res.json(userRatings);
 })
 
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 5000;
-}
-app.listen(port);
+
+let PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`The server is running at port ${PORT}`)
+});
