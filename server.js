@@ -50,7 +50,7 @@ app.get('/api/reviews', async (req, res) => {
     res.json(reviews);
 });
 
-let PORT = 3000;
+let PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`The server is running at port ${PORT}`)
