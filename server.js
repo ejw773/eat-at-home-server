@@ -176,8 +176,8 @@ app.post('/api/ratings', urlencodedParser, async (req, res) => {
   })
 });
 
-// APP.POST - Updating a User
-app.post('/api/users/:id', urlencodedParser, async (req, res) => {
+// APP.PUT - Updating a User
+app.put('/api/users/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
   const updatedUser = await User.update(req.body, {
     where: {
@@ -188,7 +188,7 @@ app.post('/api/users/:id', urlencodedParser, async (req, res) => {
 })
 
 // APP.PUT - Updating a Review
-app.post('/api/reviews/:id', urlencodedParser, async (req, res) => {
+app.put('/api/reviews/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
   const updatedReview = await Reviews.update(req.body, {
     where: {
@@ -196,10 +196,10 @@ app.post('/api/reviews/:id', urlencodedParser, async (req, res) => {
     }
   });
   res.json(updatedReview);
-})
+});
 
 // APP.PUT - Updating a Rating
-app.post('/api/ratings/:id', urlencodedParser, async (req, res) => {
+app.put('/api/ratings/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
   const updatedRating = await Ratings.update(req.body, {
     where: {
