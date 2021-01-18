@@ -11,11 +11,11 @@ const gitHubStrategy = new GitHubStrategy(
   async function(accessToken, refreshToken, profile, cb) {
     // check to see if user already exists in the database
     let user = await User.findOne({where: { github_login: parseInt(profile.id) }})
-
     if(!user) {
       user = await User.build({
         github_login: parseInt(profile.id),
-        gitHubUsername: profile.username,
+        firstName: profile.displayName,
+        lastName: profile.username,
         createAt: new Date(),
         updatedAt: new Date()
       })

@@ -1,17 +1,119 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <h1 style="text-align: center">Test API Server for the eat@home project</h1>
+
         <h2 style="text-align: center">Use the following endpoints to access the fake data:</h2>
+
+<!-- GET -->
+        <h2>GET</h2>
+        <h3>Companies</h3>
         <ul>
-                <li>Businesses: <a href="./api/biz">/api/biz</a></li>
-                <li>Users: <a href="./api/users">/api/users</a></li>
-                <li>Saved Things: <a href="./api/saves">/api/saves</a></li>
-                <li>User Reviews: <a href="./api/reviews">/api/reviews</a></li>
-                <li>User Ratings: <a href="./api/ratings">/api/ratings</a></li>
+                <li>Companies: <a href="./api/comp">/api/comp</a></li>
+                <li>Specific Companies: <a href="./api/comp/1">/api/comp/1</a></li>
+                <li>Specific Company's Reviews: <a href="./api/comp/reviews/1">/api/comp/reviews/1</a></li>
         </ul>
-        <a href="./auth/github">Login</a>
+
+        <h3>Users</h3>
+        <ul>
+                <li>Users: <a href="./api/users">/api/users</a></li>
+                <li>Specific User: <a href="./api/users/1">/api/users/1</a></li>
+                <li>Specific User's Reviews: <a href="/api/users/reviews/1">/api/users/reviews/1</a></li>
+                <li>Specific User's Saves: <a href="./api/saves/1">/api/saves/1</a></li>
+        </ul>
+
+        <h3>Other</h3>
+        <ul>
+                <li>All Saves: <a href="./api/saves">/api/saves</a></li>
+                <li>All Reviews: <a href="./api/reviews">/api/reviews</a></li>
+                <li>All Ratings: <a href="./api/ratings">/api/ratings</a></li>
+        </ul>
+        <br />
+        <br />
+
+<!-- POST -->
+        <h2>POST</h2>
+          <h3>Adding a User:</h3>
+            <p>POST, with body:</p>
+            <ul>
+              <li><b>/api/users</b></li>
+              <li>username (string)</li>
+              <li>email (string)</li>
+            </ul>
+          <h3>Adding a Save:</h3>
+            <p>POST, with body:</p>
+            <ul>
+              <li><b>/api/saves</b></li>
+              <li>user_id (integer)</li>
+              <li>company_id (integer)</li>
+            </ul>
+          <h3>Adding a Review:</h3>
+            <p>POST, with body (note: content of 'reviews' should be text of the review):</p>
+            <ul>
+              <li><b>/api/reviews</b></li>
+              <li>reviews (string)</li>
+              <li>user_id (integer)</li>
+              <li>company_id (integer)</li>
+            </ul>
+          <h3>Adding a Rating:</h3>
+            <p>POST, with body:</p>
+            <ul>
+              <li><b>/api/ratings</b></li>
+              <li>user_id (string)</li>
+              <li>company_id (integer)</li>
+              <li>rating (integer)</li>
+            </ul>
+            <br />
+            <br />
+
+<!-- PUT -->
+        <h2>PUT</h2>
+          <h3>Updating a User:</h3>
+            <p>PUT, with body: </p>
+            <ul>
+              <li><b>/api/users/:id</b></li>
+              <li>username (string)</li>
+              <li>email (string)</li>
+              <li>NOTE: The database currently has firstName and lastName, rather than username.</li>
+            </ul>
+          <h3>Updating a Review:</h3>
+            <p>PUT, with body:</p>
+            <ul>
+              <li><b>/api/reviews/:id</b></li>
+              <li>reviews (string)</li>
+            </ul>
+          <h3>Updating a Rating:</h3>
+            <p>PUT, with body:</p>
+            <ul>
+              <li><b>/api/ratings/:id</b></li>
+              <li>rating (integer)</li>
+            </ul>
+            <br />
+
+<!-- DELETE -->
+        <h2>DELETE</h2>
+          <h3>Deleting a User:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/users/:id</b></li>
+            </ul>
+          <h3>Deleting a Save:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/saves/:id</b></li>
+            </ul>
+          <h3>Deleting a Review:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/reviews/:id</b></li>
+            </ul>
+          <h3>Deleting a Rating:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/ratings/:id</b></li>
+            </ul>
     </body>
 </html>
