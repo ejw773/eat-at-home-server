@@ -26,12 +26,11 @@ passport.use(gitHubStrategy);
 
 auth(app, passport);
 
+app.use(express.static('public'));
+
 app.get('/success', (req, res) => {
     res.json({login: 'success'});
 });
-
-
-
 
 // APP.GET
 
