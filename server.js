@@ -12,7 +12,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(session({
-  secret: "super secret",
+  secret: "R6jeFlIo1EukoiSj",
   cookie: {maxAge: 60000}
 }))
 app.use(passport.initialize());
