@@ -261,6 +261,6 @@ app.delete('/api/ratings/:id', urlencodedParser, async (req, res) => {
 });
 
 // APP.LISTEN
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log(`The server is running at port ${process.env.PORT}`)
 });
