@@ -66,8 +66,13 @@ app.get('/api/comp/reviews/:compid', async (req, res) => {
 // APP.GET / USERS
 // APP.GET / All Users
 app.get('/api/users', async (req, res) => {
+  try {
     const users = await User.findAll();
     res.json(users);
+  }
+  catch (e) {
+    console.log(e.toString());
+  }
 });
 
 // APP.GET / Specific User
@@ -256,6 +261,6 @@ app.delete('/api/ratings/:id', urlencodedParser, async (req, res) => {
 });
 
 // APP.LISTEN
-app.listen(process.env.PORT, () => {
+app.listen(3000, () => {
     console.log(`The server is running at port ${process.env.PORT}`)
 });
