@@ -70,7 +70,7 @@ app.get('/api/users', async (req, res) => {
     const users = await User.findAll();
     res.json(users);
   }
-  catch (e) {
+  catch(e) {
     console.log(e.toString());
   }
 });
