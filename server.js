@@ -62,6 +62,11 @@ app.get('/api/comp/reviews/:compid', async (req, res) => {
   res.json({company_reviews: `reviews requested for company ${compid}, but database incomplete at this time`});
 });
 
+// THIS IS NEW - DOCUMENT ON homepage
+app.get('/api/comp/ratings/:compid', async (req, res) => {
+  const compid = req.params.compid;
+  res.json({company_ratings: `ratings requested for company ${compid}, but database incomplete at this time`})
+})
 
 // APP.GET / USERS
 // APP.GET / All Users
