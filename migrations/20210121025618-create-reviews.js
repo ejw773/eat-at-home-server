@@ -8,13 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      review: {
-        type: Sequelize.STRING
-      },
       user_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       company_id: {
+        type: Sequelize.INTEGER
+      },
+      rating: {
+        type: Sequelize.INTEGER
+      },
+      review: {
         type: Sequelize.STRING
       },
       createdAt: {
