@@ -44,24 +44,25 @@ app.get('/logout', (req, res) => {
   res.json({status: "logged out"})
 })
 
-// APP.GET / All Companies
-app.get('/api/comp', async (req, res) => {
-  // const comps = await Companies.findAll();
-  res.json({companies: 'requested for all companies, but database incomplete at this time'});
-});
-
-// APP.GET / Specific Companies
-app.get('/api/comp/:compid', async (req, res) => {
-  const compid = req.params.compid;
-  res.json({specific_company: `requested for company_id ${compid}, but database incomplete at this time`});
-});
-
 // APP.GET / Specific Company's Reviews
-app.get('/api/comp/reviews/:compid', async (req, res) => {
-  const compid = req.params.compid;
-  res.json({company_reviews: `reviews requested for company ${compid}, but database incomplete at this time`});
+app.get('/api/comp/review/:compid', urlencodedParser, async (req, res) => {
+  const user = await Reviews.findAll({
+    where: {
+      company_id: req.params.compid
+    }
+  });
+  res.json(user);
 });
 
+//APP.GET / Specific Company's Ratings
+app.get('/api/comp/rating/:compid', urlencodedParser, async (req, res) => {
+  const user = await Ratings.findAll({
+    where: {
+      company_id: req.params.compid
+    }
+  });
+  res.json(user);
+});
 
 // APP.GET / USERS
 // APP.GET / All Users
@@ -81,16 +82,25 @@ app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
   res.json(user);
 });
 
+// APP.GET / Specific User's Ratings
+app.get('/api/users/ratings/:userid', urlencodedParser, async (req, res) => {
+  const user = await Ratings.findAll({
+    where: {
+      user_id: req.params.userid
+    }
+  });
+  res.json(user);
+});
+
 // APP.GET / Specific User's Reviews
 app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
   const userid = req.params.userid;
-  // const reviews = await Reviews.findAll({
-  //   where: {
-  //     user_id: req.params.userid
-  //   }
-  // })
-  // res.json(reviews);
-  res.json({user_reviews: `reviews from user ${userid} requested, but database currently incomplete`});
+  const reviews = await Reviews.findAll({
+    where: {
+      user_id: req.params.userid
+    }
+  })
+  res.json(reviews);
 });
 
 // APP.GET Specific User's Saves
@@ -129,9 +139,10 @@ app.get('/api/ratings', async (req, res) => {
 
 // APP.POST - Adding a User
 app.post('/api/users', urlencodedParser, async (req, res) => {
-  const { username, email } = req.body;
+  const { displayName, userName, email } = req.body;
   const newUser = await User.create({
-    lastName: username,
+    displayName,
+    userName,
     email
   });
   res.json({
@@ -153,9 +164,9 @@ app.post('/api/saves', urlencodedParser, async (req, res) => {
 
 // APP.POST - Adding a Review
 app.post('/api/reviews', urlencodedParser, async (req, res) => {
-  const { reviews, user_id, company_id } = req.body;
+  const { review, user_id, company_id } = req.body;
   const newReview = await Reviews.create({
-    reviews,
+    review,
     user_id,
     company_id
   });
@@ -177,9 +188,15 @@ app.post('/api/ratings', urlencodedParser, async (req, res) => {
   })
 });
 
+
+
+// ======================= NONE OF THE 'PUT' ITEMS WORK RIGHT NOW =======================
+
+// APP.PUT
 // APP.PUT - Updating a User
 app.put('/api/users/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
+  const { displayName, userName, email } = req.body;
   const updatedUser = await User.update(req.body, {
     where: {
       id

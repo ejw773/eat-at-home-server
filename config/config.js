@@ -1,22 +1,22 @@
-{
+module.exports = {
   "development": {
-    "username": "stashag",
+    "username": "wilcott",
     "password": null,
-    "database": "eat-at-home_db",
+    "database": "eat-at-home-server",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "wilcott",
     "password": null,
-    "database": "database_test",
+    "database": "eat-at-home-server",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
+    "username": "wilcott",
     "password": null,
-    "database": "database_production",
+    "database": "eat-at-home-server",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

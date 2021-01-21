@@ -11,6 +11,9 @@ module.exports = {
       review: {
         type: Sequelize.STRING
       },
+      user_id: {
+        type: Sequelize.STRING
+      },
       company_id: {
         type: Sequelize.STRING
       },
