@@ -44,8 +44,7 @@
           <h3>Adding a Save:</h3>
             <p>POST, with body:</p>
             <ul>
-              <li><b>/api/saves</b></li>
-              <li>user_id (integer)</li>
+              <li><b>/api/saves/:user_id</b></li>
               <li>company_id (integer)</li>
             </ul>
           <h3>Adding or Updating a Review:</h3>
@@ -59,10 +58,11 @@
           <h3>Adding or Updating a Rating:</h3>
             <p>POST, with body:</p>
             <ul>
-              <li><b>/api/ratings</b></li>
+              <li><b>/api/rating</b></li>
               <li>user_id (integer)</li>
               <li>company_id (integer)</li>
               <li>rating (integer)</li>
+              <li>NOTE: Something is wrong with returning the rating after an update</li>
             </ul>
             <br />
             <br />
