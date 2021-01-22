@@ -7,7 +7,7 @@ const passport = require('passport');
 const session = require('express-session')
 const auth = require('./auth');
 const gitHubStrategy = require('./auth/strategy/github');
-const { User, Ratings, Reviews, Saved_Companies } = require('./models');
+const { User, Reviews, Saved_Companies } = require('./models');
 
 const app = express();
 
@@ -44,7 +44,7 @@ app.get('/logout', (req, res) => {
   res.json({status: "logged out"})
 })
 
-// APP.GET / Specific Company's Reviews
+// APP.GET / Specific Company's Ratings & Reviews
 app.get('/api/comp/review/:compid', urlencodedParser, async (req, res) => {
   const user = await Reviews.findAll({
     where: {
@@ -54,15 +54,6 @@ app.get('/api/comp/review/:compid', urlencodedParser, async (req, res) => {
   res.json(user);
 });
 
-//APP.GET / Specific Company's Ratings
-app.get('/api/comp/rating/:compid', urlencodedParser, async (req, res) => {
-  const user = await Ratings.findAll({
-    where: {
-      company_id: req.params.compid
-    }
-  });
-  res.json(user);
-});
 
 // APP.GET / USERS
 // APP.GET / All Users
@@ -77,16 +68,6 @@ app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
   const user = await User.findAll({
     where: {
       id: req.params.userid
-    }
-  });
-  res.json(user);
-});
-
-// APP.GET / Specific User's Ratings
-app.get('/api/users/ratings/:userid', urlencodedParser, async (req, res) => {
-  const user = await Ratings.findAll({
-    where: {
-      user_id: req.params.userid
     }
   });
   res.json(user);
@@ -122,16 +103,10 @@ app.get('/api/saves', async (req, res) => {
     res.json(saves);
 });
 
-// APP.GET All Reviews
+// APP.GET All Reviews and Ratings
 app.get('/api/reviews', async (req, res) => {
     const reviews = await Reviews.findAll();
     res.json(reviews);
-});
-
-// APP.GET All Ratings
-app.get('/api/ratings', async (req, res) => {
-    const ratings = await Ratings.findAll();
-    res.json(ratings);
 });
 
 
@@ -151,8 +126,9 @@ app.post('/api/users', urlencodedParser, async (req, res) => {
 });
 
 // APP.POST - Adding a Save
-app.post('/api/saves', urlencodedParser, async (req, res) => {
-  const { user_id, company_id } = req.body;
+app.post('/api/saves/:user_id', urlencodedParser, async (req, res) => {
+  const user_id = req.params.user_id;
+  const company_id = req.body.company_id;
   const newSave = await Saved_Companies.create({
     user_id,
     company_id
@@ -162,38 +138,77 @@ app.post('/api/saves', urlencodedParser, async (req, res) => {
   })
 });
 
-// APP.POST - Adding a Review
-app.post('/api/reviews', urlencodedParser, async (req, res) => {
-  const { review, user_id, company_id } = req.body;
-  const newReview = await Reviews.create({
-    review,
+//APP.POST - Adding or Updating a Review
+app.post('/api/review', urlencodedParser, async (req, res) => {
+  const { user_id, company_id, review } = req.body;
+  const foundItem = await Reviews.findOne({where: {
     user_id,
     company_id
-  });
-  res.json({
-    id: newReview.id
-  })
-});
+  }});
+  if (!foundItem) {
+    console.log('need to make a new one');
+    const newReview = await Reviews.create({
+      user_id,
+      company_id,
+      review
+    });
+    res.json({newReview})
+  } else {
+    console.log('need to update the old one')
+    console.log(review);
+    const updatedReview = await Reviews.update({review: review}, {
+      where: {
+        user_id,
+        company_id
+      }
+    });
+    const returnUpdatedReview = await Reviews.findOne({
+      where: {
+        user_id,
+        company_id
+      }
+    })
+  res.json({review: returnUpdatedReview.review});
+  }
+})
 
-// APP.POST - Adding a Rating
-app.post('/api/ratings', urlencodedParser, async (req, res) => {
+// APP.POST - Adding or Updating a Rating
+app.post('/api/rating', urlencodedParser, async (req, res) => {
   const { user_id, company_id, rating } = req.body;
-  const newRating = await Ratings.create({
+  console.log(req.body);
+  const foundItem = await Reviews.findOne({where: {
     user_id,
-    company_id,
-    rating
-  });
-  res.json({
-    id: newRating.id
-  })
-});
+    company_id
+  }});
+  if (!foundItem) {
+    console.log('need to make a new one');
+    const newReview = await Reviews.create({
+      user_id,
+      company_id,
+      rating
+    });
+    res.json({newReview})
+  } else {
+    console.log('need to update the old one')
+    console.log(rating);
+    const updatedRating = await Reviews.update({rating: rating}, {
+      where: {
+        user_id,
+        company_id
+      }
+    });
+    const returnUpdatedRating = await Reviews.findOne({
+      user_id,
+      company_id
+    })
+  res.json({rating: returnUpdatedRating.rating});
+  }
+})
 
 
-
-// ======================= NONE OF THE 'PUT' ITEMS WORK RIGHT NOW =======================
 
 // APP.PUT
-// APP.PUT - Updating a User
+// APP.PUT - Updating a User - Let's not use this just now...
 app.put('/api/users/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
   const { displayName, userName, email } = req.body;
@@ -202,29 +217,9 @@ app.put('/api/users/:id', urlencodedParser, async (req, res) => {
       id
     }
   });
-  res.json(updatedUser)
-})
-
-// APP.PUT - Updating a Review
-app.put('/api/reviews/:id', urlencodedParser, async (req, res) => {
-  const { id } = req.params;
-  const updatedReview = await Reviews.update(req.body, {
-    where: {
-      id
-    }
-  });
-  res.json(updatedReview);
-});
-
-// APP.PUT - Updating a Rating
-app.put('/api/ratings/:id', urlencodedParser, async (req, res) => {
-  const { id } = req.params;
-  const updatedRating = await Ratings.update(req.body, {
-    where: {
-      id
-    }
-  });
-  res.json(updatedRating);
+  console.log(id);
+  const returnUpdatedUser = await User.findByPk(req.params.id)
+  res.json(returnUpdatedUser)
 })
 
 // APP.DELETE
@@ -250,7 +245,7 @@ app.delete('/api/saves/:id', urlencodedParser, async (req, res) => {
   res.json(deletedSave)
 });
 
-// APP.DELETE - Deleting a Review
+// APP.DELETE - Deleting a Review with Rating
 app.delete('/api/reviews/:id', urlencodedParser, async (req, res) => {
   const { id } = req.params;
   const deletedReview = await Reviews.destroy({
@@ -259,17 +254,6 @@ app.delete('/api/reviews/:id', urlencodedParser, async (req, res) => {
     }
   });
   res.json(deletedReview);
-});
-
-// APP.DELETE - Deleting a Rating
-app.delete('/api/ratings/:id', urlencodedParser, async (req, res) => {
-  const { id } = req.params;
-  const deletedRating = await Ratings.destroy({
-    where: {
-      id
-    }
-  });
-  res.json(deletedRating);
 });
 
 // APP.LISTEN
