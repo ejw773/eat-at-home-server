@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Saved_Companies.init({
-    user_id: DataTypes.STRING,
-    company_id: DataTypes.STRING
+    user_id: DataTypes.INTEGER,
+    company_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Saved_Companies',
