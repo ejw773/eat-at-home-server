@@ -14,11 +14,15 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Saved_Companies, {
         foreignKey: 'id'
       });
+    
+      User.hasMany(models.Reviews, {
+        foreignKey: 'id'
+      });
     }
   };
+  
   User.init({
     userName: DataTypes.STRING,
-    // user_id: DataTypes.INTEGER,
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     github_login: DataTypes.INTEGER
