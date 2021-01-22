@@ -14,8 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Saved_Companies, {
         foreignKey: 'id'
       });
+    
+      User.hasMany(models.Reviews, {
+        foreignKey: 'id'
+      });
     }
   };
+  
   User.init({
     userName: DataTypes.STRING,
     displayName: DataTypes.STRING,
