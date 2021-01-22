@@ -67,8 +67,13 @@ app.get('/api/comp/rating/:compid', urlencodedParser, async (req, res) => {
 // APP.GET / USERS
 // APP.GET / All Users
 app.get('/api/users', async (req, res) => {
+  try {
     const users = await User.findAll();
     res.json(users);
+  }
+  catch(e) {
+    console.log(e.toString());
+  }
 });
 
 // APP.GET / Specific User
