@@ -21,12 +21,12 @@ app.use(session({
 // strategies
 passport.use(gitHubStrategy);
 
-auth(app, passport);
-
 app.use(express.static('public'));
 app.use('/auth', auth);
 app.use(passport.initialize());
 app.use(passport.session());
+auth(app, passport);
+
 
 
 // app.get('/success', (req, res) => {
