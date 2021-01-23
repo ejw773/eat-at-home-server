@@ -27,10 +27,11 @@ passport.use(gitHubStrategy);
 auth(app, passport);
 
 app.use(express.static('public'));
+app.use('/auth', auth);
 
-app.get('/success', (req, res) => {
-    res.json({login: 'success'});
-});
+// app.get('/success', (req, res) => {
+//     res.json({login: 'success'});
+// });
 
 // APP.GET
 
