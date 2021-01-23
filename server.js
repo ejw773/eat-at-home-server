@@ -18,19 +18,24 @@ app.use(session({
   secret: "R6jeFlIo1EukoiSj",
   cookie: {maxAge: 60000}
 }))
+
+passport.use(gitHubStrategy);
+
+// strategies
 app.use(passport.initialize());
 app.use(passport.session());
 
 // strategies
-passport.use(gitHubStrategy);
 
 auth(app, passport);
 
 app.use(express.static('public'));
+app.use('/auth', auth);
 
-app.get('/success', (req, res) => {
-    res.json({login: 'success'});
-});
+
+// app.get('/success', (req, res) => {
+//     res.json({login: 'success'});
+// });
 
 // APP.GET
 
@@ -91,7 +96,9 @@ app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
 
 // APP.GET Specific User's Saves
 app.get('/api/saves/:userid', urlencodedParser, async (req, res) => {
-  console.log("user's saves requested");
+  console.log("consoling session")
+  console.log(req.session);
+  console.log(req.user);
   const saves = await Saved_Companies.findAll({
     where: {
       user_id: req.params.userid
@@ -180,7 +187,7 @@ app.post('/api/review', urlencodedParser, async (req, res) => {
 // APP.POST - Adding or Updating a Rating
 app.post('/api/rating', urlencodedParser, async (req, res) => {
   const { user_id, company_id, rating } = req.body;
-  console.log(req.body);
+  console.log(req.session);
   const foundItem = await Reviews.findOne({where: {
     user_id,
     company_id
@@ -202,10 +209,10 @@ app.post('/api/rating', urlencodedParser, async (req, res) => {
         company_id
       }
     });
-    const returnUpdatedRating = await Reviews.findOne({
+    const returnUpdatedRating = await Reviews.findOne({ where: {
       user_id: user_id,
       company_id: company_id
-    })
+    }})
   res.json({rating: returnUpdatedRating});
   }
 })
