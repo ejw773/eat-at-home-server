@@ -202,10 +202,10 @@ app.post('/api/rating', urlencodedParser, async (req, res) => {
         company_id
       }
     });
-    const returnUpdatedRating = await Reviews.findOne({
+    const returnUpdatedRating = await Reviews.findOne({ where: {
       user_id: user_id,
       company_id: company_id
-    })
+    }})
   res.json({rating: returnUpdatedRating});
   }
 })
