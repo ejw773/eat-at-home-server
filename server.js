@@ -185,7 +185,7 @@ app.post('/api/review', urlencodedParser, async (req, res) => {
 // APP.POST - Adding or Updating a Rating
 app.post('/api/rating', urlencodedParser, async (req, res) => {
   const { user_id, company_id, rating } = req.body;
-  console.log(req.body);
+  console.log(req.session);
   const foundItem = await Reviews.findOne({where: {
     user_id,
     company_id
