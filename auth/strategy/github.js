@@ -26,14 +26,25 @@ const gitHubStrategy = new GitHubStrategy(
 );
 
 passport.serializeUser(function(user, done) {
-  console.log("Serialize user function: " + user.id)
-  done(null, user.id);
+    // What goes INTO the session here; right now it's everything in User
+    // this should really only be the User ID
+    done(null, user);
+});
+passport.deserializeUser(function(id, done) {
+    done(null, id);
+    //This is looking up the User in the database using the information from the session "id"
+    // Convert the ID into the User object.
 });
 
-passport.deserializeUser(async function(id, done) {
-  console.log("Deserialize user function: " + id)
-  const user = await User.findByPk(id)
-  done(null, user);
-});
+// passport.serializeUser(function(user, done) {
+//   console.log("Serialize user function: " + user.id)
+//   done(null, user.id);
+// });
+
+// passport.deserializeUser(async function(id, done) {
+//   console.log("Deserialize user function: " + id)
+//   const user = await User.findByPk(id)
+//   done(null, user);
+// });
 
 module.exports = gitHubStrategy;
