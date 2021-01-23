@@ -26,10 +26,12 @@ const gitHubStrategy = new GitHubStrategy(
 );
 
 passport.serializeUser(function(user, done) {
+  console.log("Serialize user function: " + user.id)
   done(null, user.id);
 });
 
 passport.deserializeUser(async function(id, done) {
+  console.log("Deserialize user function: " + id)
   const user = await User.findByPk(id)
   done(null, user);
 });
