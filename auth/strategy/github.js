@@ -14,8 +14,8 @@ const gitHubStrategy = new GitHubStrategy(
     if(!user) {
       user = await User.build({
         github_login: parseInt(profile.id),
-        firstName: profile.displayName,
-        lastName: profile.username,
+        displayName: profile.displayName,
+        userName: profile.username,
         createAt: new Date(),
         updatedAt: new Date()
       })
