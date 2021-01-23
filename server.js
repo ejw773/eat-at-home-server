@@ -96,7 +96,8 @@ app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
 
 // APP.GET Specific User's Saves
 app.get('/api/saves/:userid', urlencodedParser, async (req, res) => {
-  console.log(req.user);
+  console.log("consoling session")
+  console.log(session);
   const saves = await Saved_Companies.findAll({
     where: {
       user_id: req.params.userid
