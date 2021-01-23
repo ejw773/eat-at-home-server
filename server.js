@@ -18,15 +18,19 @@ app.use(session({
   secret: "R6jeFlIo1EukoiSj",
   cookie: {maxAge: 60000}
 }))
-// strategies
+
 passport.use(gitHubStrategy);
+
+// strategies
+app.use(passport.initialize());
+app.use(passport.session());
+
+// strategies
+
+auth(app, passport);
 
 app.use(express.static('public'));
 app.use('/auth', auth);
-app.use(passport.initialize());
-app.use(passport.session());
-auth(app, passport);
-
 
 
 // app.get('/success', (req, res) => {
