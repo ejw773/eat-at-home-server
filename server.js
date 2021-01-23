@@ -18,9 +18,6 @@ app.use(session({
   secret: "R6jeFlIo1EukoiSj",
   cookie: {maxAge: 60000}
 }))
-app.use(passport.initialize());
-app.use(passport.session());
-
 // strategies
 passport.use(gitHubStrategy);
 
@@ -28,6 +25,9 @@ auth(app, passport);
 
 app.use(express.static('public'));
 app.use('/auth', auth);
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // app.get('/success', (req, res) => {
 //     res.json({login: 'success'});
