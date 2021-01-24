@@ -51,6 +51,10 @@ app.get('/api/comp/review/:compid', urlencodedParser, async (req, res) => {
   res.json(user);
 });
 
+app.get('/api/user/id', async (req, res) => {
+  const userID = {userID: req.user};
+  res.json(userID);
+});
 
 // APP.GET / USERS
 // APP.GET / All Users
@@ -93,7 +97,7 @@ app.get('/api/saves/:userid', urlencodedParser, async (req, res) => {
   console.log("consoling req.user")
   console.log(req.user);
   console.log("consoling req.user.id");
-  console.log(req.user.id);
+  // console.log(req.user.id);
   const saves = await Saved_Companies.findAll({
     where: {
       user_id: req.params.userid
