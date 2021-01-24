@@ -69,6 +69,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 // APP.GET / Specific User
+// ===== Not in use =====
 app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
   console.log("individual user requested");
   console.log(req.user.id);
@@ -80,31 +81,40 @@ app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
   res.json(user);
 });
 
+
+
 // APP.GET / Specific User's Reviews
-app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
-  console.log(req.user.id);
-  const userid = req.params.userid;
+app.get('/api/this_user/reviews', urlencodedParser, async (req, res) => {
   const reviews = await Reviews.findAll({
     where: {
-      user_id: req.params.userid
+      user_id: req.user.id
     }
   })
   res.json(reviews);
-});
+})
+
+// app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
+//   console.log(req.user.id);
+//   const userid = req.params.userid;
+//   const reviews = await Reviews.findAll({
+//     where: {
+//       user_id: req.params.userid
+//     }
+//   })
+//   res.json(reviews);
+// });
+
+
 
 // APP.GET Specific User's Saves
-app.get('/api/saves/:userid', urlencodedParser, async (req, res) => {
-  console.log("consoling req.user")
-  console.log(req.user);
-  console.log("consoling req.user.id");
-  // console.log(req.user.id);
+app.get('/api/this_user/saves', urlencodedParser, async (req, res) => {
   const saves = await Saved_Companies.findAll({
     where: {
-      user_id: req.params.userid
+      user_id: req.user.id
     }
   });
   res.json(saves);
-});
+})
 
 
 // APP.GET / ALL OTHERS
@@ -137,11 +147,10 @@ app.post('/api/users', urlencodedParser, async (req, res) => {
 });
 
 // APP.POST - Adding a Save
-app.post('/api/saves/:user_id', urlencodedParser, async (req, res) => {
-  const user_id = req.params.user_id;
+app.post('/api/this_user/save', urlencodedParser, async (req, res) => {
   const company_id = req.body.company_id;
   const newSave = await Saved_Companies.create({
-    user_id,
+    user_id: req.user.id,
     company_id
   });
   res.json({
@@ -149,33 +158,43 @@ app.post('/api/saves/:user_id', urlencodedParser, async (req, res) => {
   })
 });
 
+// app.post('/api/saves/:user_id', urlencodedParser, async (req, res) => {
+//   const user_id = req.params.user_id;
+//   const company_id = req.body.company_id;
+//   const newSave = await Saved_Companies.create({
+//     user_id,
+//     company_id
+//   });
+//   res.json({
+//     id: newSave.id
+//   })
+// });
+
+
 //APP.POST - Adding or Updating a Review
 app.post('/api/review', urlencodedParser, async (req, res) => {
-  const { user_id, company_id, review } = req.body;
+  const { company_id, review } = req.body;
   const foundItem = await Reviews.findOne({where: {
-    user_id,
+    user_id: req.user.id,
     company_id
   }});
   if (!foundItem) {
-    console.log('need to make a new one');
     const newReview = await Reviews.create({
-      user_id,
+      user_id: req.user.id,
       company_id,
       review
     });
     res.json({newReview})
   } else {
-    console.log('need to update the old one')
-    console.log(review);
     const updatedReview = await Reviews.update({review: review}, {
       where: {
-        user_id,
+        user_id: req.user.id,
         company_id
       }
     });
     const returnUpdatedReview = await Reviews.findOne({
       where: {
-        user_id,
+        user_id: req.user.id,
         company_id
       }
     })
@@ -183,41 +202,103 @@ app.post('/api/review', urlencodedParser, async (req, res) => {
   }
 })
 
+
+// app.post('/api/review', urlencodedParser, async (req, res) => {
+//   const { user_id, company_id, review } = req.body;
+//   const foundItem = await Reviews.findOne({where: {
+//     user_id,
+//     company_id
+//   }});
+//   if (!foundItem) {
+//     console.log('need to make a new one');
+//     const newReview = await Reviews.create({
+//       user_id,
+//       company_id,
+//       review
+//     });
+//     res.json({newReview})
+//   } else {
+//     console.log('need to update the old one')
+//     console.log(review);
+//     const updatedReview = await Reviews.update({review: review}, {
+//       where: {
+//         user_id,
+//         company_id
+//       }
+//     });
+//     const returnUpdatedReview = await Reviews.findOne({
+//       where: {
+//         user_id,
+//         company_id
+//       }
+//     })
+//   res.json({review: returnUpdatedReview.review});
+//   }
+// })
+
 // APP.POST - Adding or Updating a Rating
+// NEW Add to Docs
 app.post('/api/rating', urlencodedParser, async (req, res) => {
-  const { user_id, company_id, rating } = req.body;
-  console.log("consoling session")
-  console.log(req.session);
-  console.log(req.user);
+  const { company_id, rating } = req.body;
   const foundItem = await Reviews.findOne({where: {
-    user_id,
+    user_id: req.user.id,
     company_id
   }});
   if (!foundItem) {
-    console.log('need to make a new one');
     const newReview = await Reviews.create({
-      user_id,
+      user_id: req.user.id,
       company_id,
       rating
     });
     res.json({newReview})
   } else {
-    console.log('need to update the old one')
-    console.log(rating);
     const updatedRating = await Reviews.update({rating: rating}, {
       where: {
-        user_id,
+        user_id: req.user.id,
         company_id
       }
     });
     const returnUpdatedRating = await Reviews.findOne({ where: {
-      user_id: user_id,
+      user_id: req.user.id,
       company_id: company_id
     }})
   res.json({rating: returnUpdatedRating});
   }
 })
 
+// app.post('/api/rating', urlencodedParser, async (req, res) => {
+//   const { user_id, company_id, rating } = req.body;
+//   console.log("consoling session")
+//   console.log(req.session);
+//   console.log(req.user);
+//   const foundItem = await Reviews.findOne({where: {
+//     user_id,
+//     company_id
+//   }});
+//   if (!foundItem) {
+//     console.log('need to make a new one');
+//     const newReview = await Reviews.create({
+//       user_id,
+//       company_id,
+//       rating
+//     });
+//     res.json({newReview})
+//   } else {
+//     console.log('need to update the old one')
+//     console.log(rating);
+//     const updatedRating = await Reviews.update({rating: rating}, {
+//       where: {
+//         user_id,
+//         company_id
+//       }
+//     });
+//     const returnUpdatedRating = await Reviews.findOne({ where: {
+//       user_id: user_id,
+//       company_id: company_id
+//     }})
+//   res.json({rating: returnUpdatedRating});
+//   }
+// })
 
 
 // APP.PUT
