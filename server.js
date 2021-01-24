@@ -16,26 +16,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(urlencodedParser);
 app.use(session({
   secret: "R6jeFlIo1EukoiSj",
+  resave: false,
+  saveUninitialized: true,
   cookie: {maxAge: 60000}
 }))
 
-passport.use(gitHubStrategy);
-
 // strategies
+passport.use(gitHubStrategy);
 app.use(passport.initialize());
 app.use(passport.session());
-
-// strategies
-
 auth(app, passport);
 
 app.use(express.static('public'));
-app.use('/auth', auth);
-
-
-// app.get('/success', (req, res) => {
-//     res.json({login: 'success'});
-// });
 
 // APP.GET
 
@@ -75,6 +67,7 @@ app.get('/api/users', async (req, res) => {
 // APP.GET / Specific User
 app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
   console.log("individual user requested");
+  console.log(req.user.id);
   const user = await User.findAll({
     where: {
       id: req.params.userid
@@ -85,6 +78,7 @@ app.get('/api/users/:userid', urlencodedParser, async (req, res) => {
 
 // APP.GET / Specific User's Reviews
 app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
+  console.log(req.user.id);
   const userid = req.params.userid;
   const reviews = await Reviews.findAll({
     where: {
@@ -96,9 +90,10 @@ app.get('/api/users/reviews/:userid', urlencodedParser, async (req, res) => {
 
 // APP.GET Specific User's Saves
 app.get('/api/saves/:userid', urlencodedParser, async (req, res) => {
-  console.log("consoling session")
-  console.log(req.session);
+  console.log("consoling req.user")
   console.log(req.user);
+  console.log("consoling req.user.id");
+  console.log(req.user.id);
   const saves = await Saved_Companies.findAll({
     where: {
       user_id: req.params.userid
@@ -187,7 +182,9 @@ app.post('/api/review', urlencodedParser, async (req, res) => {
 // APP.POST - Adding or Updating a Rating
 app.post('/api/rating', urlencodedParser, async (req, res) => {
   const { user_id, company_id, rating } = req.body;
+  console.log("consoling session")
   console.log(req.session);
+  console.log(req.user);
   const foundItem = await Reviews.findOne({where: {
     user_id,
     company_id
