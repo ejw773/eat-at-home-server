@@ -28,6 +28,7 @@ app.use(passport.session());
 auth(app, passport);
 
 app.use(express.static('public'));
+app.use('/auth', auth);
 
 // APP.GET
 
