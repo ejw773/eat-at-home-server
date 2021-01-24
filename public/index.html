@@ -19,8 +19,8 @@
         <ul>
                 <li>Users: <a href="/api/users">/api/users</a></li>
                 <li>Specific User: <a href="/api/users/1">/api/users/1</a></li>
-                <li>Specific User's Ratings and Reviews: <a href="/api/users/reviews/1">/api/users/reviews/1</a></li>
-                <li>Specific User's Saves: <a href="/api/saves/1">/api/saves/1</a></li>
+                <li>Specific User's Ratings and Reviews: /api/this_user/reviews (logged in only)</li>
+                <li>Specific User's Saves: /api/this_user/saves (logged in only)</li>
         </ul>
 
         <h3>Other</h3>
@@ -42,16 +42,15 @@
               <li>email (string)</li>
             </ul>
           <h3>Adding a Save:</h3>
-            <p>POST, with body:</p>
+            <p>POST, with body (logged in only):</p>
             <ul>
-              <li><b>/api/saves/:user_id</b></li>
+              <li><b>/api/this_user/save</b></li>
               <li>company_id (integer)</li>
             </ul>
           <h3>Adding or Updating a Review:</h3>
             <p>POST, with body (note: content of 'review' should be text of the review):</p>
             <ul>
               <li><b>/api/review</b></li>
-              <li>user_id (integer)</li>
               <li>company_id (integer)</li>
               <li>review (string)</li>
             </ul>
@@ -59,7 +58,6 @@
             <p>POST, with body:</p>
             <ul>
               <li><b>/api/rating</b></li>
-              <li>user_id (integer)</li>
               <li>company_id (integer)</li>
               <li>rating (integer)</li>
             </ul>
