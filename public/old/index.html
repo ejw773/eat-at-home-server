@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1 style="text-align: center">Test API Server for the eat@home project</h1>
+
+        <h2 style="text-align: center">Use the following endpoints to access the fake data:</h2>
+
+<!-- GET -->
+        <h2>GET</h2>
+        <h3>Companies</h3>
+        <ul>
+                <li>Specific Company's Reviews and Ratings: <a href="./api/comp/review/1">/api/comp/review/1</a></li>
+        </ul>
+
+        <h3>Users</h3>
+        <ul>
+                <li>Users: <a href="/api/users">/api/users</a></li>
+                <li>Specific User: <a href="/api/users/1">/api/users/1</a></li>
+                <li>Specific User's Ratings and Reviews: /api/this_user/reviews (logged in only)</li>
+                <li>Specific User's Saves: /api/this_user/saves (logged in only)</li>
+        </ul>
+
+        <h3>Other</h3>
+        <ul>
+                <li>All Saves: <a href="/api/saves">/api/saves</a></li>
+                <li>All Reviews and Ratings: <a href="/api/reviews">/api/reviews</a></li>
+        </ul>
+        <br />
+        <br />
+
+<!-- POST -->
+        <h2>POST</h2>
+          <h3>Adding a User:</h3>
+            <p>POST, with body:</p>
+            <ul>
+              <li><b>/api/users</b></li>
+              <li>displayName (string)</li>
+              <li>userName (string)</li>
+              <li>email (string)</li>
+            </ul>
+          <h3>Adding a Save:</h3>
+            <p>POST, with body (logged in only):</p>
+            <ul>
+              <li><b>/api/this_user/save</b></li>
+              <li>company_id (integer)</li>
+            </ul>
+          <h3>Adding or Updating a Review:</h3>
+            <p>POST, with body (note: content of 'review' should be text of the review):</p>
+            <ul>
+              <li><b>/api/review</b></li>
+              <li>company_id (integer)</li>
+              <li>review (string)</li>
+            </ul>
+          <h3>Adding or Updating a Rating:</h3>
+            <p>POST, with body:</p>
+            <ul>
+              <li><b>/api/rating</b></li>
+              <li>company_id (integer)</li>
+              <li>rating (integer)</li>
+            </ul>
+            <br />
+            <br />
+
+<!-- PUT -->
+        <h2>PUT</h2>
+          <h3>Updating a User:</h3>
+            <p>PUT, with body: </p>
+            <ul>
+              <li><b>/api/users/:id</b></li>
+              <li>displayName (string)</li>
+              <li>userName (string)</li>
+              <li>email (string)</li>
+            </ul>
+            <br />
+
+<!-- DELETE -->
+        <h2>DELETE</h2>
+          <h3>Deleting a User:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/users/:id</b></li>
+            </ul>
+          <h3>Deleting a Save:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/saves/:id</b></li>
+            </ul>
+          <h3>Deleting a Review with Associated Rating:</h3>
+            <p>DELETE:</p>
+            <ul>
+              <li><b>/api/reviews/:id</b></li>
+            </ul>
+    </body>
+</html>
