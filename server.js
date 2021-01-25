@@ -1,7 +1,8 @@
 require('dotenv').config();
+const express = require('express');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const urlencodedParser = require('urlencoded-parser');
-const express = require('express');
 const fetch = require('node-fetch');
 const passport = require('passport');
 const session = require('express-session')
@@ -12,6 +13,7 @@ const { User, Reviews, Saved_Companies } = require('./models');
 
 const app = express();
 app.use(cors());
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
