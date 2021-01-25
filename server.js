@@ -11,7 +11,7 @@ const gitHubStrategy = require('./auth/strategy/github');
 const { User, Reviews, Saved_Companies } = require('./models');
 
 const app = express();
-app.use(cors);
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
