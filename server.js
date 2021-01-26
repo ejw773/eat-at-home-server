@@ -22,7 +22,10 @@ app.use(session({
   secret: "R6jeFlIo1EukoiSj",
   resave: false,
   saveUninitialized: true,
-  cookie: {maxAge: 3600000}
+  cookie: {
+    maxAge: 3600000,
+    httpOnly: false
+  },
 }))
 
 // strategies
